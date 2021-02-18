@@ -1,0 +1,30 @@
+// числа трибоначчи + кэш
+
+#include <iostream>
+
+using namespace std;
+
+int foo(int n, int*mass)
+{
+	if (n > 2)
+		if (mass[n - 1] != 0)
+			return mass[n - 1];
+		else {
+			 mass[n-1] = foo(n - 1, mass) + foo(n - 2, mass) + foo(n - 3, mass);
+			 return mass[n - 1];
+		}
+
+	return 0;
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+
+	int* mass = new int[n + 2]{ 0 };
+	mass[2] = 1;
+	cout << foo(n, mass);
+
+	delete []mass;
+}
