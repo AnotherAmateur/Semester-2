@@ -1,0 +1,27 @@
+
+// произведение элементов массива через рекурсию
+
+#include <iostream>
+
+using namespace std;
+
+int foo(int n, int*mass)
+{
+	if (n > 0)
+		return foo(n - 1, mass) * mass[n];
+	return mass[0];
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+
+	int* mass = new int[n];
+	for (int i = 0; i < n; ++i)
+		cin >> mass[i];
+
+	cout << foo(n-1, mass);
+
+	delete []mass;
+}
