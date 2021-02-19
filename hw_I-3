@@ -1,0 +1,54 @@
+
+// distance between points
+
+#include <iostream>
+
+using namespace std;
+
+template <class T>
+struct Point
+{
+	T x;
+	T y;
+	T z;
+
+	void setP()
+	{
+		cin >> x >> y >> z;
+	};
+	double dl()
+	{
+		return sqrt(x * x + y * y + z * z);
+	};
+};
+
+template <typename Q>
+double foo(Point<Q> p1, Point<Q> p2)
+{
+	Point<Q> p3;
+	p3.x = p1.x - p2.x; 
+	p3.y = p1.y - p2.y;
+	p3.z = p1.z - p2.z;
+	 return p3.dl();
+}
+
+int main()
+{
+	Point <int> pi1, pi2;
+	Point <double> pd1, pd2;
+
+	bool b;
+	cin >> b;
+	if (b) {
+		pi1.setP();
+		pi2.setP();
+		cout << " dlina = " << pi1.dl() << endl;
+		cout << " distance = " << foo(pi1, pi2);
+	}
+	else {
+		pd1.setP();
+		pd2.setP();
+		cout << " dlina = " << pd1.dl() << endl;
+		cout << " distance = " << foo(pd1, pd2);
+	}
+}
