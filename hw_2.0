@@ -1,0 +1,171 @@
+// класс прямоугольников
+
+#include <iostream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+class Rectangle
+{
+    string name;
+    int width, height;
+
+public:
+
+    static int num;
+
+    Rectangle(int width, int height, string name)
+    {
+        num++;
+        SetWidthAndHeight(width, height);
+        this->name = name;
+    }
+
+    Rectangle(const Rectangle& other)
+    {
+        num++;
+        cout << "!!!\n";
+        SetWidthAndHeight(other.width, other.height);
+        this->name = other.name;
+    }
+
+    Rectangle(int square, string name)
+    {
+        num++;
+        SetWidthAndHeight(square, square);
+        this->name;
+    }
+
+    Rectangle() = default;
+
+    int Perimetr() const
+    {
+        return 2 * (height + width);
+    }
+
+    string GetName()
+    {
+        return name;
+    }
+
+    bool SetWidth(int width)
+    {
+        if (width >= 0)
+        {
+            this->width = width;
+            return true;
+        }
+        return false;
+    }
+
+    bool SetHeight(int height)
+    {
+        if (height >= 0)
+        {
+            this->height = height;
+            return true;
+        }
+        return false;
+    }
+
+    int GetWidth()
+    {
+        return width;
+    }
+
+    int GetHeight()
+    {
+        return height;
+    }
+
+    void SetWidthAndHeight(int width, int height)
+    {
+        SetHeight(height);
+        SetWidth(width);
+    }
+
+    void PrintRect()
+    {
+        cout << "width and height of " << name << " : " << width << ' ' << height << '\n';
+    }
+
+    int Square() const
+    {
+        return width * height;
+    }
+
+    bool operator>(const Rectangle& other)
+    {
+        return Square() > other.Square();
+    }
+
+    /*
+    bool IsLarger(Rectangle other)
+    {
+        return Square() > other.Square();
+    }
+    */
+
+    friend Rectangle operator+(const Rectangle& first,
+        const Rectangle& second)
+    {
+        return Rectangle(first.width + second.width,
+            first.height + second.height, first.name+second.name);
+    }
+
+    friend bool operator==(const Rectangle& first,
+        const Rectangle& second)
+    {
+        return (first.width == second.width && first.height == second.height);
+    }
+
+    Rectangle& operator++(int)
+    {
+        Rectangle temp(*this);
+        SetWidthAndHeight(++width, ++height);
+        return temp;
+    }
+
+ ~Rectangle()
+    {
+        cout << "\n" << name << " is deleted\n";
+    }
+};
+
+
+int Rectangle::num = 0;
+
+int main()
+{
+    Rectangle r(1, 2, "axaagah");
+    r.PrintRect();
+    r.SetWidthAndHeight(1, 2);
+    r.PrintRect();
+
+    Rectangle r2(r);
+    r2.PrintRect();
+
+    Rectangle r3(5, 6, "asba");
+    r3 = r;
+    r3.PrintRect();
+
+    cout << "\nincrement";
+    r3++;
+    r3.PrintRect();
+
+    cout << Rectangle::num << '\n';
+
+    if (r2 > r3)
+    {
+        cout << "Yes\n";
+    }
+
+    cout << "per of " << r.GetName() << " = " << r.Perimetr();
+    
+    Rectangle rr = r2 + r3;
+
+    cout << ((r == r2) ? "\nYes" : "\nNo");
+
+    return 0;
+}
