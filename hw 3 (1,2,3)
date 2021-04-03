@@ -1,0 +1,148 @@
+
+
+// класс SimpleVector
+
+
+#include <iostream>
+
+using namespace std;
+
+template <class T>
+class SimpleVector
+{
+	int n;
+	int size;
+	T* _vector = new T[size];
+
+public:
+	SimpleVector() : size(1), n(0) {};
+
+	SimpleVector(int n) : size(n) {};
+
+	~SimpleVector();
+
+	const T& operator[](const int index) const;
+
+	void Expand();
+
+	void PushBack(T data);
+
+	T FindFirst(T data);
+
+	bool RemoveFirst(T data);
+
+};
+
+template<class T>
+SimpleVector<T>::~SimpleVector()
+{
+	delete[]_vector;
+}
+
+template<class T>
+void SimpleVector<T>::Expand()
+{
+	T* newVector = new T[2 * size];
+
+
+	for (int i = 0; i < n; ++i) {
+		newVector[i] = _vector[i];
+	}
+
+
+	T* temp = _vector;
+	_vector = newVector;
+
+	size *= 2;
+
+	delete[]temp;
+}
+
+
+template<class T>
+void SimpleVector<T>::PushBack(T data)
+{
+	if (n == size) {
+		Expand();
+	}
+
+	_vector[n] = data;
+
+	++n;
+}
+
+
+
+template<class T>
+const T& SimpleVector<T>::operator[](const int index) const
+{
+	return _vector[index];
+}
+
+
+template<class T>
+T SimpleVector<T>::FindFirst(T data)
+{
+
+	for (int i = 0; i < n; ++i) {
+		if (data == _vector[i])
+			return i;
+	}
+
+	return -1;
+}
+
+
+template<class T>
+bool SimpleVector<T>::RemoveFirst(T data)
+{
+
+	T* newVector = new T[size];
+
+	bool k = false;
+
+	for (int i = 0; i < n; ++i) {
+		if(!k){
+		if (data != _vector[i])
+			newVector[i-k] = _vector[i];
+		else k = true;
+		}
+		else 
+			newVector[i - k] = _vector[i];
+	}
+
+
+	T* temp = _vector;
+	_vector = newVector;
+
+	delete[]temp;
+
+	return T();
+}
+
+
+int main()
+{
+
+	SimpleVector <int> vec;
+
+	vec.PushBack(5);
+	vec.PushBack(2);
+	vec.PushBack(3);
+	vec.PushBack(4);
+	vec.PushBack(5);
+	vec.PushBack(5);
+	vec.PushBack(7);
+	vec.PushBack(8);
+	vec.PushBack(9);
+
+	cout << vec.FindFirst(70) << endl;
+
+	int a = vec[1];
+	
+
+	for (int i = 0; i < 9; ++i)
+		cout << vec[i] << ' ';
+
+	
+}
