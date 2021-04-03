@@ -1,0 +1,49 @@
+
+
+// Найти пересечение прямоугольников
+
+#include <iostream>
+
+using namespace std;
+
+struct Rectangle
+{
+	double top_x;
+	double top_y;
+	double bot_x;
+	double bot_y;
+};
+
+Rectangle foo(Rectangle st, Rectangle nd)
+{
+
+	Rectangle t { 0,0,0,0 };
+
+	if (st.top_x > nd.top_x) swap(st, nd); // первый левее второго
+
+
+	if (st.bot_x > nd.top_x)	// если пересекаются по оси Х и
+		if(st.bot_y < nd.top_y)	// пересекаются снизу
+		if( st.top_y > nd.bot_y)	// пересекются сверху
+	{
+		t.top_x = max(st.top_x, nd.top_x);	//	верхняя x - координата квадрата
+		t.top_y = min(st.top_y, nd.top_y);	//	верхняя y - координата квадрата
+		t.bot_x = min(st.bot_x, nd.bot_x);	//	нижняя х - координата квадрата
+		t.bot_y = max(st.bot_y, nd.bot_y);	//	нижняя у - координата квадрата
+		cout << 'o';
+	}
+		
+
+
+	return t;
+
+}
+
+int main()
+{
+	
+	Rectangle two{ 1,1,1,1 }; // считается за прямоугльник
+	Rectangle one{ 0,2,2,0 };
+
+	foo(one, two);
+}
