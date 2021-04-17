@@ -1,0 +1,154 @@
+// класс SimpleVector
+
+
+#include <iostream>
+
+using namespace std;
+
+template <class T>
+class List
+{
+	struct Element
+	{
+		T inf;
+		Element* next;
+		Element* prev;
+		Element(T data) : inf(data), next(nullptr), prev(nullptr) {};
+	};
+
+	Element* head;
+	Element* tail;
+
+public:
+
+	List() : head(nullptr), tail(nullptr) {};
+	~List() {};
+
+	void Push(int data);
+
+	void Print() const;
+
+	void RemoveAll(int data);
+
+	List<T> CpyExclude(int data) const;
+
+};
+
+template<class T>
+void List<T>::Push(int data)
+{
+	Element* newPtr = new Element(data);
+
+	if (!head ) {
+		head = newPtr;
+		tail = head;
+	}
+
+	else {
+	
+		tail->next = newPtr;
+		(tail->next)->prev = tail;
+		tail = newPtr;
+	}
+
+}
+
+template<class T>
+void List<T>::RemoveAll(int data)
+{
+
+	Element* ptr = head;
+
+	while (ptr)
+
+		if (ptr->inf == data) {
+
+			Element* trash = ptr;
+
+			if (ptr == head) {
+
+				head = ptr->next;
+				head->prev = nullptr;
+
+				ptr = head;
+
+				delete trash;
+
+				continue;
+			}
+
+			if (ptr == tail) {
+
+				tail = ptr->prev;
+				tail->next = nullptr;
+
+				ptr = nullptr;
+
+				delete trash;
+				continue;
+			}
+
+			(ptr->prev)->next = ptr->next;
+			(ptr->next)->prev = ptr->prev;
+
+			ptr = ptr->next;
+
+			delete trash;
+
+		}
+
+			else ptr = ptr->next;
+			
+}
+
+template<class T>
+List<T> List<T>::CpyExclude(int data) const
+{
+	List <T> newList;
+
+	Element* pointer = head;
+
+	while (pointer) {
+
+		if (pointer->inf != data)
+			newList.Push(pointer->inf);
+
+		pointer = pointer->next;
+	}
+
+				return newList;
+
+}
+
+template<class T>
+void List<T>::Print() const
+{
+
+	Element* pointer = head;
+
+	while (pointer) {
+		cout << pointer->inf << ' ';
+		pointer = pointer->next;
+	}
+
+}
+
+
+int main()
+{
+	List <int> one, two;
+	one.Push(3);
+	one.Push(1);
+	one.Push(3);
+	one.Push(2);
+	one.Push(3);
+	one.Push(3);
+
+	two = one.CpyExclude(3);
+
+	two.Push(5);
+
+	one.Print();
+	cout << endl;
+	two.Print();
+}
