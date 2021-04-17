@@ -1,0 +1,190 @@
+// класс SimpleVector
+
+
+#include <iostream>
+
+using namespace std;
+
+template <class T>
+class SimpleVector
+{
+	int n;
+	int size;
+	T* _vector = new T[size];
+
+public:
+	SimpleVector() : size(1), n(0) {};
+
+	SimpleVector(int n) : size(n) {};
+
+	~SimpleVector();
+
+	const T& operator[](int index) const;
+
+	void Expand();
+
+	void PushBack(T data);
+
+	T FindFirst(T data);
+
+	bool RemoveFirst(T data);
+
+
+	bool InsertAfter(int num, T data);
+};
+
+template<class T>
+SimpleVector<T>::~SimpleVector()
+{
+	delete[]_vector;
+}
+
+template<class T>
+void SimpleVector<T>::Expand()
+{
+	size *= 2;
+
+	T* newVector = new T[size];
+
+
+	for (int i = 0; i < n; ++i) {
+		newVector[i] = _vector[i];
+	}
+
+
+	T* temp = _vector;
+	_vector = newVector;
+
+	delete[]temp;
+}
+
+
+template<class T>
+void SimpleVector<T>::PushBack(T data)
+{
+	if (n == size) {
+		Expand();
+	}
+
+	_vector[n] = data;
+
+	++n;
+}
+
+
+
+template<class T>
+const T& SimpleVector<T>::operator[](int index) const
+{
+	return _vector[index];
+}
+
+
+template<class T>
+T SimpleVector<T>::FindFirst(T data)
+{
+
+	for (int i = 0; i < n; ++i) {
+		if (data == _vector[i])
+			return i;
+	}
+
+	return -1;
+}
+
+
+template<class T>
+bool SimpleVector<T>::RemoveFirst(T data)
+{
+
+	T* newVector = new T[size];
+
+	bool k = false;
+
+	for (int i = 0; i < n; ++i) {
+		if (!k) {
+			if (data != _vector[i])
+				newVector[i] = _vector[i];
+			else k = true;
+		}
+		else
+			newVector[i - k] = _vector[i];
+	}
+
+
+	T* temp = _vector;
+	_vector = newVector;
+
+	delete[]temp;
+
+	return k;
+}
+
+template<class T>
+bool SimpleVector<T>::InsertAfter(int num, T data)
+{
+
+	bool k = false;
+
+	for (int i = 0; i < n; ++i) 
+		if (_vector[i] == num) {
+
+			
+			if (n == size)
+				++size;
+
+			T* newVector = new T[size];
+
+
+			int j = 0;
+			while (j < n) {
+
+				newVector[j + k] = _vector[j];
+				
+				if (j == i) {
+
+					k = true;
+					newVector[j + k] = data;
+				
+				}
+				
+				++j;
+			}
+
+			++n;
+
+			T* temp = _vector;
+			_vector = newVector;
+
+			delete[]temp;
+
+			 break;
+		}
+
+	return k;
+}
+
+
+int main()
+{
+
+	SimpleVector <int> vec;
+
+	vec.PushBack(5);
+	vec.PushBack(2);
+	vec.PushBack(3);
+	vec.PushBack(4);
+	vec.PushBack(5);
+	vec.PushBack(5);
+	vec.PushBack(7);
+	vec.PushBack(8);
+	vec.PushBack(9);
+
+	cout << vec.InsertAfter(4, 999) << endl;
+
+
+	for (int i = 0; i < 10; ++i)
+		cout << vec[i] << ' ';
+
+
+}
