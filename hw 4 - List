@@ -5,7 +5,7 @@
 
 using namespace std;
 
-template <class T>
+template <class T>	// шаблонный двусвязный список
 class List
 {
 	struct Element
@@ -24,13 +24,13 @@ public:
 	List() : head(nullptr), tail(nullptr) {};
 	~List() {};
 
-	void Push(int data);
+	void Push(int data);	// добавить в конец списка
 
-	void Print() const;
+	void Print() const;	// вывод всего списка в консоль
 
-	void RemoveAll(int data);
+	void RemoveAll(int data);	// удалить все элементы, равные data, в этом списке
 
-	List<T> CpyExclude(int data) const;
+	List<T> CpyExclude(int data) const;	// вернуть новый список без элемента data
 
 };
 
@@ -59,13 +59,13 @@ void List<T>::RemoveAll(int data)
 
 	Element* ptr = head;
 
-	while (ptr)
+	while (ptr)	// пока ptr != nullptr
 
 		if (ptr->inf == data) {
 
 			Element* trash = ptr;
 
-			if (ptr == head) {
+			if (ptr == head) {	// если удаляем первый элемент
 
 				head = ptr->next;
 				head->prev = nullptr;
@@ -77,7 +77,7 @@ void List<T>::RemoveAll(int data)
 				continue;
 			}
 
-			if (ptr == tail) {
+			if (ptr == tail) {	// если удаляем последний элемент
 
 				tail = ptr->prev;
 				tail->next = nullptr;
@@ -88,7 +88,7 @@ void List<T>::RemoveAll(int data)
 				continue;
 			}
 
-			(ptr->prev)->next = ptr->next;
+			(ptr->prev)->next = ptr->next;	// если удаляем любой другой элемент
 			(ptr->next)->prev = ptr->prev;
 
 			ptr = ptr->next;
@@ -97,7 +97,7 @@ void List<T>::RemoveAll(int data)
 
 		}
 
-			else ptr = ptr->next;
+			else ptr = ptr->next;	// следующий элемент списка
 			
 }
 
@@ -108,9 +108,9 @@ List<T> List<T>::CpyExclude(int data) const
 
 	Element* pointer = head;
 
-	while (pointer) {
+	while (pointer) {	// пока ptr != nullptr
 
-		if (pointer->inf != data)
+		if (pointer->inf != data)	// если встречаем элемент data - пропускаем
 			newList.Push(pointer->inf);
 
 		pointer = pointer->next;
