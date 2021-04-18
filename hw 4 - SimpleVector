@@ -94,7 +94,7 @@ T SimpleVector<T>::FindFirst(T data)
 
 
 template<class T>
-bool SimpleVector<T>::RemoveFirst(T data)
+bool SimpleVector<T>::RemoveFirst(T data)	// удаление первого вхождения такого элемента
 {
 
 	T* newVector = new T[size];
@@ -121,7 +121,7 @@ bool SimpleVector<T>::RemoveFirst(T data)
 }
 
 template<class T>
-bool SimpleVector<T>::InsertAfter(int num, T data)
+bool SimpleVector<T>::InsertAfter(int num, T data)	// вставить x после у
 {
 
 	bool k = false;
