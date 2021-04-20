@@ -26,7 +26,8 @@ public:
 
 	void Push(int data);	// добавить в конец списка
 
-	void Print() const;	// вывод всего списка в консоль
+	template <class U>
+	friend ostream& operator << (ostream& out, const List<U> obj);	// вывод всего списка в консоль
 
 	void RemoveAll(int data);	// удалить все элементы, равные data, в этом списке
 
@@ -39,13 +40,13 @@ void List<T>::Push(int data)
 {
 	Element* newPtr = new Element(data);
 
-	if (!head ) {
+	if (!head) {
 		head = newPtr;
 		tail = head;
 	}
 
 	else {
-	
+
 		tail->next = newPtr;
 		(tail->next)->prev = tail;
 		tail = newPtr;
@@ -97,8 +98,8 @@ void List<T>::RemoveAll(int data)
 
 		}
 
-			else ptr = ptr->next;	// следующий элемент списка
-			
+		else ptr = ptr->next;	// следующий элемент списка
+
 }
 
 template<class T>
@@ -116,23 +117,26 @@ List<T> List<T>::CpyExclude(int data) const
 		pointer = pointer->next;
 	}
 
-				return newList;
+	return newList;
 
 }
 
+
+
 template<class T>
-void List<T>::Print() const
+ostream& operator<<(ostream& out, const List<T> obj)
 {
 
-	Element* pointer = head;
+	auto* pointer = obj.head;
 
 	while (pointer) {
-		cout << pointer->inf << ' ';
+		out << pointer->inf << ' ';
 		pointer = pointer->next;
 	}
 
-}
+	return out;
 
+}
 
 int main()
 {
@@ -148,7 +152,5 @@ int main()
 
 	two.Push(5);
 
-	one.Print();
-	cout << endl;
-	two.Print();
+	cout << one;
 }
