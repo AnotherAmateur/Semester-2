@@ -1,0 +1,92 @@
+#include<iostream>
+#include<vector>
+#include<list>
+#include<algorithm>
+
+using namespace std;
+
+int main()
+{
+
+
+	list<int> my_list{ -1646, 1, 2, 345, 16, 0 , -125 , 13, -9999};
+	vector<int> my_vec{ -1646, 1, 2, 99345, 16, 0 , -125 , -993 };
+
+	// поиск минимального в list
+	{
+
+		auto it(min_element(my_list.begin(), my_list.end()));
+
+		my_list.insert(it, 0);
+		my_list.insert(++it, 0);
+
+	}
+
+	// поиск минимального в vector
+	{
+
+		auto it(min_element(my_vec.begin(), my_vec.end()));
+		
+		it = my_vec.insert(it, 0);
+		advance(it, 2);
+		my_vec.insert(it, 0);
+
+	}
+
+
+	// замена среднего по положению элемента максимальным отрицательным list, элементов > 1
+	{
+
+		int min(*min_element(my_list.begin(), my_list.end()));
+
+		if (!(min < 0)) {
+
+			cout << "Ошибка";
+			return 0;
+
+		}
+
+		for (const auto& it : my_list) {
+
+			if (it < 0 && it > min)
+				min = it;
+
+		}
+
+
+		auto iter(my_list.begin());
+		advance(iter, my_list.size() / 2 - 1);
+
+		*iter = min;
+
+	}
+
+	// vector
+	{
+
+		int min(*min_element(my_vec.begin(), my_vec.end()));
+
+		if (!(min < 0)) {
+
+			cout << "Ошибка";
+			return 0;
+
+		}
+
+		for (const auto& it : my_vec) {
+
+			if (it < 0 && it > min)
+				min = it;
+
+		}
+
+		my_vec[my_vec.size() / 2 - 1] = min;
+
+	}
+
+
+	for (const auto& it : my_vec)
+		cout << it << ' ';
+
+
+}
